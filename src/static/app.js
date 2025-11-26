@@ -18,14 +18,69 @@ document.addEventListener("DOMContentLoaded", () => {
         const activityCard = document.createElement("div");
         activityCard.className = "activity-card";
 
-        const spotsLeft = details.max_participants - details.participants.length;
+        // Title
+        const title = document.createElement("h4");
+        title.textContent = name;
+        activityCard.appendChild(title);
 
-        activityCard.innerHTML = `
-          <h4>${name}</h4>
-          <p>${details.description}</p>
-          <p><strong>Schedule:</strong> ${details.schedule}</p>
-          <p><strong>Availability:</strong> ${spotsLeft} spots left</p>
-        `;
+        // Description
+        const desc = document.createElement("p");
+        desc.textContent = details.description;
+        activityCard.appendChild(desc);
+
+        // Schedule
+        const schedule = document.createElement("p");
+        schedule.innerHTML = `<strong>Schedule:</strong> ${details.schedule}`;
+        activityCard.appendChild(schedule);
+
+        // Availability
+        const spotsLeft = details.max_participants - details.participants.length;
+        const availability = document.createElement("p");
+        availability.innerHTML = `<strong>Availability:</strong> ${spotsLeft} spots left`;
+        activityCard.appendChild(availability);
+
+        // Participants section
+        const participantsWrap = document.createElement("div");
+        participantsWrap.className = "participants";
+
+        const participantsTitle = document.createElement("h5");
+        participantsTitle.textContent = "Participants";
+        participantsWrap.appendChild(participantsTitle);
+
+        if (details.participants && details.participants.length > 0) {
+          const ul = document.createElement("ul");
+          ul.className = "participants-list";
+
+          details.participants.forEach((pEmail) => {
+            const li = document.createElement("li");
+            li.className = "participant-item";
+
+            // Compute simple initial from local part of email
+            const local = (pEmail.split("@")[0] || "").trim();
+            const initial = local.charAt(0).toUpperCase() || "?";
+
+            const avatar = document.createElement("span");
+            avatar.className = "avatar";
+            avatar.textContent = initial;
+
+            const emailSpan = document.createElement("span");
+            emailSpan.className = "participant-email";
+            emailSpan.textContent = pEmail;
+
+            li.appendChild(avatar);
+            li.appendChild(emailSpan);
+            ul.appendChild(li);
+          });
+
+          participantsWrap.appendChild(ul);
+        } else {
+          const none = document.createElement("div");
+          none.className = "no-participants";
+          none.textContent = "No participants yet.";
+          participantsWrap.appendChild(none);
+        }
+
+        activityCard.appendChild(participantsWrap);
 
         activitiesList.appendChild(activityCard);
 
