@@ -10,6 +10,57 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.responses import RedirectResponse
 import os
 from pathlib import Path
+import threading
+
+
+_extra_activities = {
+    "Soccer Team": {
+        "description": "Competitive soccer team practicing tactics and teamwork",
+        "schedule": "Tuesdays and Thursdays, 4:00 PM - 6:00 PM",
+        "max_participants": 22,
+        "participants": ["alex@mergington.edu"]
+    },
+    "Basketball Team": {
+        "description": "School basketball team, drills and inter-school games",
+        "schedule": "Mondays, Wednesdays, 4:00 PM - 6:00 PM",
+        "max_participants": 15,
+        "participants": ["chris@mergington.edu"]
+    },
+    "Art Club": {
+        "description": "Explore painting, drawing, and mixed media projects",
+        "schedule": "Wednesdays, 3:30 PM - 5:00 PM",
+        "max_participants": 18,
+        "participants": ["mia@mergington.edu"]
+    },
+    "Choir": {
+        "description": "Vocal ensemble performing at school events and concerts",
+        "schedule": "Fridays, 3:30 PM - 5:00 PM",
+        "max_participants": 30,
+        "participants": ["sarah@mergington.edu"]
+    },
+    "Science Olympiad": {
+        "description": "Prepare for science competitions with hands-on challenges",
+        "schedule": "Thursdays, 3:30 PM - 5:00 PM",
+        "max_participants": 12,
+        "participants": ["noah@mergington.edu"]
+    },
+    "Debate Club": {
+        "description": "Develop public speaking, research, and argumentation skills",
+        "schedule": "Tuesdays, 3:30 PM - 5:00 PM",
+        "max_participants": 20,
+        "participants": ["lily@mergington.edu"]
+    }
+}
+
+def _merge_extra_activities():
+    try:
+        activities.update(_extra_activities)
+    except NameError:
+        # activities not yet defined; try again shortly
+        threading.Timer(0.01, _merge_extra_activities).start()
+
+# Schedule merge after module import so the existing activities dict (defined later) gets extended
+threading.Timer(0.01, _merge_extra_activities).start()
 
 app = FastAPI(title="Mergington High School API",
               description="API for viewing and signing up for extracurricular activities")
@@ -61,6 +112,11 @@ def signup_for_activity(activity_name: str, email: str):
 
     # Get the specific activity
     activity = activities[activity_name]
+
+    # Validate student is not already signed up
+    if email in activity["participants"]:
+        raise HTTPException(status_code=400, detail="Student already signed up for this activity")
+
 
     # Add student
     activity["participants"].append(email)
