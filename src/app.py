@@ -15,50 +15,49 @@ import threading
 
 def _merge_extra_activities():
     try:
+        _extra_activities = {
+            "Soccer Club": {
+            "description": "Team-based soccer practices and inter-school matches",
+            "schedule": "Tuesdays and Thursdays, 4:00 PM - 5:30 PM",
+            "max_participants": 22,
+            "participants": ["liam@mergington.edu", "noah@mergington.edu"]
+            },
+            "Basketball Club": {
+            "description": "Skills training, pickup games, and seasonal tournaments",
+            "schedule": "Mondays and Wednesdays, 4:00 PM - 6:00 PM",
+            "max_participants": 15,
+            "participants": ["ava@mergington.edu", "mia@mergington.edu"]
+            },
+            "Art Club": {
+            "description": "Explore drawing, painting, and mixed media projects",
+            "schedule": "Wednesdays, 3:30 PM - 5:00 PM",
+            "max_participants": 20,
+            "participants": ["sophia@mergington.edu"]
+            },
+            "Drama Club": {
+            "description": "Acting workshops, script reading, and stage productions",
+            "schedule": "Fridays, 3:30 PM - 6:00 PM",
+            "max_participants": 25,
+            "participants": ["olivia@mergington.edu"]
+            },
+            "Math Olympiad": {
+            "description": "Problem-solving sessions and competition prep for math contests",
+            "schedule": "Tuesdays, 3:30 PM - 4:30 PM",
+            "max_participants": 18,
+            "participants": ["ethan@mergington.edu"]
+            },
+            "Science Club": {
+            "description": "Hands-on experiments, projects, and science fair preparation",
+            "schedule": "Thursdays, 3:30 PM - 5:00 PM",
+            "max_participants": 20,
+            "participants": ["emma@mergington.edu"]
+            }
+        }
         activities.update(_extra_activities)
     except NameError:
         # activities not yet defined; try again shortly
         threading.Timer(0.01, _merge_extra_activities).start()
-        global _extra_activities
-        _extra_activities = {
-            "Soccer Team": {
-                "description": "Competitive soccer team practicing tactics and teamwork",
-                "schedule": "Tuesdays and Thursdays, 4:00 PM - 5:30 PM",
-                "max_participants": 18,
-                "participants": ["liam@mergington.edu", "noah@mergington.edu"]
-            },
-            "Basketball Club": {
-                "description": "Pickup games and skill development for basketball enthusiasts",
-                "schedule": "Mondays and Wednesdays, 5:00 PM - 6:30 PM",
-                "max_participants": 15,
-                "participants": ["ava@mergington.edu"]
-            },
-            "Art Club": {
-                "description": "Explore painting, drawing, and mixed media projects",
-                "schedule": "Fridays, 3:30 PM - 5:00 PM",
-                "max_participants": 20,
-                "participants": ["isabella@mergington.edu"]
-            },
-            "Drama Club": {
-                "description": "Acting workshops and production of school plays",
-                "schedule": "Wednesdays and Saturdays, 4:00 PM - 6:00 PM",
-                "max_participants": 25,
-                "participants": ["mason@mergington.edu", "mia@mergington.edu"]
-            },
-            "Debate Team": {
-                "description": "Develop public speaking and argumentation skills; compete in tournaments",
-                "schedule": "Thursdays, 3:45 PM - 5:15 PM",
-                "max_participants": 16,
-                "participants": ["charlotte@mergington.edu"]
-            },
-            "Science Club": {
-                "description": "Hands-on experiments and preparation for science fairs",
-                "schedule": "Tuesdays, 4:00 PM - 5:30 PM",
-                "max_participants": 22,
-                "participants": ["henry@mergington.edu", "grace@mergington.edu"]
-            }
-        }
-
+        
 # Schedule merge after module import so the existing activities dict (defined later) gets extended
 threading.Timer(0.01, _merge_extra_activities).start()
 
