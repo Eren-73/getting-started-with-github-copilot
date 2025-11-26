@@ -198,6 +198,21 @@ footer {
   word-break: break-all;
 }
 
+.delete-participant {
+  margin-left: auto;
+  background: transparent;
+  border: none;
+  color: #c62828;
+  font-size: 14px;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 4px;
+}
+
+.delete-participant:hover {
+  background: rgba(198,40,40,0.08);
+}
+
 .participants .no-participants {
   font-style: italic;
   color: #666;
